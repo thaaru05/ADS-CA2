@@ -1,0 +1,49 @@
+def insert(arr, l_index, val):
+    index = l_index + 1
+    while index >= 1 and arr[index // 2] < val:
+        arr[index] = arr[index // 2]
+        index = index // 2
+    arr[index] = val
+
+def delete_max(arr, l_index):
+    if l_index == 0:
+        return None  # Heap is empty
+    max_value = arr[1]  # The maximum value is always at the root
+    arr[1] = arr[l_index]
+    l_index -= 1
+    index = 1
+    while 2 * index <= l_index:
+        child_index = 2 * index
+        if child_index < l_index and arr[child_index] < arr[child_index + 1]:
+            child_index += 1
+        if arr[index] >= arr[child_index]:
+            break
+        arr[index], arr[child_index] = arr[child_index], arr[index]
+        index = child_index
+    return max_value
+
+def main():
+    heap = [0] * 10  
+    heap_size = 0   
+    insert(heap, heap_size, 5)
+    heap_size += 1
+    insert(heap, heap_size, 3)
+    heap_size += 1
+    insert(heap, heap_size, 7)
+    heap_size += 1
+    insert(heap, heap_size, 1)
+    heap_size += 1
+    
+    print("Heap after insertion:", heap[1:heap_size+1])
+
+    # Delete the max element
+    deleted_value = delete_max(heap, heap_size)
+    if deleted_value is not None:
+        print("Deleted max value:", deleted_value)
+        heap_size -= 1
+        print("Heap after deletion:", heap[1:heap_size+1])
+    else:
+        print("Heap is empty, cannot delete.")
+
+if __name__ == "__main__":
+    main()
