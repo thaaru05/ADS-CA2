@@ -2,3 +2,69 @@
 # 2) Delete Min:    O(Log n)  [same as both Binary and Binomial]
 # 3) Insert:        O(Log n)  [O(Log n) in Binary and O(1) in Binomial and O(Log n) for worst case]                                                                  
 # 4) Merge:         O(Log n)  [O(Log n) in Binomial]
+# merge two list #insertion #deletion
+
+class LeftListNode:
+    def __init__(self, data):
+        self.data = data
+        self.left_child = None
+        self.next_sibling = None
+
+def insert_left_list_tree(root, data):
+    if root is None:
+        return LeftListNode(data)
+    else:
+        if root.left_child is None:
+            root.left_child = LeftListNode(data)
+        else:
+            current = root.left_child
+            while current.next_sibling:
+                current = current.next_sibling
+            current.next_sibling = LeftListNode(data)
+    return root
+
+def delete_left_list_tree(root, data):
+    if root is None:
+        return None
+    if root.data == data:
+        deleted_node = root
+        root = root.next_sibling
+        deleted_node.next_sibling = None
+        deleted_node.left_child = None
+        return root
+
+    prev = None
+    current = root.left_child
+    while current:
+        if current.data == data:
+            deleted_node = current
+            prev.next_sibling = current.next_sibling
+            deleted_node.next_sibling = None
+            deleted_node.left_child = None
+            return root
+        prev = current
+        current = current.next_sibling
+
+    return root
+
+# Example usage:
+root = None
+root = insert_left_list_tree(root, 1)
+root = insert_left_list_tree(root, 2)
+root = insert_left_list_tree(root, 3)
+
+# Print tree
+def print_left_list_tree(root):
+    if root:
+        print(root.data)
+        print_left_list_tree(root.left_child)
+        print_left_list_tree(root.next_sibling)
+
+print("Left-list tree:")
+print_left_list_tree(root)
+
+# Delete a node
+root = delete_left_list_tree(root, 2)
+
+print("Left-list tree after deletion:")
+print_left_list_tree(root)
